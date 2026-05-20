@@ -63,9 +63,13 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`======================================================================`);
-  console.log(`🕵️‍♂️ MRD Cyber Command Center API online on port: ${PORT}`);
-  console.log(`💻 Local Core: http://localhost:${PORT}`);
-  console.log(`======================================================================`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`======================================================================`);
+    console.log(`🕵️‍♂️ MRD Cyber Command Center API online on port: ${PORT}`);
+    console.log(`💻 Local Core: http://localhost:${PORT}`);
+    console.log(`======================================================================`);
+  });
+}
+
+module.exports = app;
