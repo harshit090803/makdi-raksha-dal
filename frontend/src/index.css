@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #080808;
+    color: #e5e7eb;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Custom dark-red scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #080808;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #4a0000;
+    border-radius: 3px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #8b0000;
+  }
+}
+
+/* CRT Scanline Overlay Vibe for Terminal Mode */
+.crt-overlay::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 99;
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+}
+
+/* Red cyber grid background texture */
+.cyber-grid-bg {
+  background-size: 40px 40px;
+  background-image: radial-gradient(circle, rgba(139, 0, 0, 0.08) 1px, transparent 1px);
+}
+
+/* Flickering glow keyframe for command console elements */
+@keyframes flicker {
+  0% { opacity: 0.97; }
+  50% { opacity: 1; }
+  100% { opacity: 0.98; }
+}
+
+.terminal-flicker {
+  animation: flicker 0.15s infinite;
+}
+
+/* Dynamic subtle spider web floating keyframes */
+@keyframes floatWeb {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+.floating-web {
+  animation: floatWeb 12s infinite ease-in-out;
+}
+
+/* Utility classes for premium glow headers */
+.text-crimson-glow {
+  text-shadow: 0 0 10px rgba(220, 20, 60, 0.6), 0 0 20px rgba(220, 20, 60, 0.2);
+}
