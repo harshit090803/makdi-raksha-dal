@@ -4,7 +4,7 @@ import { ShieldAlert, Terminal, MessageSquare, AlertTriangle, Send, Check } from
 import { useAuth } from '../context/AuthContext';
 
 const Contact = () => {
-  const { API_URL } = useState(useAuth().API_URL);
+  const { API_URL } = useAuth();
 
   // Form states
   const [generalName, setGeneralName] = useState('');
