@@ -1,5 +1,6 @@
 const Contact = require('../models/Contact');
 const { getDbMode } = require('../config/db');
+const { sendNotificationEmail } = require('../utils/emailService');
 
 // Mock Contacts & Tips Store
 let mockContacts = [
@@ -21,13 +22,13 @@ let mockContacts = [
   }
 ];
 
-// Submit secure tip or contact query
+// Submit confidential tip or contact query
 const submitContact = async (req, res) => {
   try {
     const { name, email, type, message } = req.body;
 
     if (!message) {
-      return res.status(400).json({ error: 'Transmission payload requires a message content.' });
+      return res.status(400).json({ error: 'Message content is required.' });
     }
 
     if (type === 'General' && (!name || !email)) {
@@ -42,14 +43,24 @@ const submitContact = async (req, res) => {
       createdAt: new Date()
     };
 
+    // Send email notification (non-blocking, errors caught gracefully)
+    sendNotificationEmail({
+      type: type || 'General',
+      name: type === 'AnonymousTip' ? '' : name,
+      email: type === 'AnonymousTip' ? '' : email,
+      message
+    }).catch(err => {
+      console.error('Non-blocking sendNotificationEmail error:', err);
+    });
+
     if (getDbMode()) {
       const mockId = `mock_con_${Date.now()}`;
       const createdMock = { _id: mockId, ...newContactData };
       mockContacts.unshift(createdMock);
       return res.status(201).json({
         message: type === 'AnonymousTip' 
-          ? 'Secure tip broadcast encrypted and registered in MRD command core. Identity protected.'
-          : 'Query transmitted successfully to Dal communications team.',
+          ? 'Confidential tip registered. Personally identifiable metadata has been excluded.'
+          : 'Inquiry submitted successfully to the communications team.',
         contact: createdMock
       });
     }
@@ -60,14 +71,14 @@ const submitContact = async (req, res) => {
 
     res.status(201).json({
       message: type === 'AnonymousTip' 
-        ? 'Secure tip broadcast encrypted and registered in MRD command core. Identity protected.'
-        : 'Query transmitted successfully to Dal communications team.',
+        ? 'Confidential tip registered. Personally identifiable metadata has been excluded.'
+        : 'Inquiry submitted successfully to the communications team.',
       contact: newContact
     });
 
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Critical failure during secure tip transmission.' });
+    res.status(500).json({ error: 'Failed to submit message. Please try again.' });
   }
 };
 

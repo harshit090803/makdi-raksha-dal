@@ -172,22 +172,22 @@ const Contact = () => {
             </form>
           </div>
 
-          {/* High-Security Anonymous Tip Terminal */}
+          {/* Confidential Tip Portal */}
           <div className="border border-mrd-crimson/30 bg-[#060000] p-6 rounded shadow-crimson-glow relative overflow-hidden font-mono crt-overlay">
             
             {/* Blinking Secure Indicator */}
             <div className="absolute top-2 right-2 flex items-center space-x-2 text-[9px] text-mrd-crimson font-bold">
               <span className="w-1.5 h-1.5 rounded-full bg-mrd-brightRed animate-pulse" />
-              <span>LOGS BYPASSED</span>
+              <span>METADATA MINIMIZED</span>
             </div>
 
             <div className="flex items-center space-x-2 text-white border-b border-mrd-red/25 pb-3 mb-6">
               <Terminal className="w-5 h-5 text-mrd-crimson animate-pulse" />
-              <span className="text-xs font-bold uppercase tracking-wider">Encrypted Tip Node</span>
+              <span className="text-xs font-bold uppercase tracking-wider">Confidential Tip Portal</span>
             </div>
 
             <p className="text-[10px] text-gray-500 leading-relaxed mb-6 uppercase">
-              WARNING: This is a high-security cryptographic broadcast system. Your IP, browser agents, and credentials are bypassed and NOT stored. Use this node to report narrative click-farms, bots, or media corruption.
+              NOTICE: Personal identifiable information is intentionally excluded from anonymous submissions. Standard client IP addresses and metadata are not saved in this database to safeguard privacy.
             </p>
 
             <form onSubmit={handleTipSubmit} className="space-y-4">
@@ -195,13 +195,13 @@ const Contact = () => {
               {successTip && <p className="text-[10px] text-emerald-400 border border-emerald-500/30 bg-[#020502]/60 p-2.5 rounded">{successTip}</p>}
 
               <div className="flex flex-col">
-                <label className="text-[9px] uppercase tracking-widest text-mrd-crimson font-bold mb-1.5">Secure Message *</label>
+                <label className="text-[9px] uppercase tracking-widest text-mrd-crimson font-bold mb-1.5">Confidential Tip Content *</label>
                 <textarea 
                   value={tipMessage}
                   onChange={(e) => setTipMessage(e.target.value)}
                   rows={6}
                   className="bg-mrd-black border border-mrd-crimson/25 focus:border-mrd-crimson focus:outline-none rounded px-3 py-2 text-xs leading-relaxed text-emerald-400 font-mono" 
-                  placeholder="Enter encrypted OSINT / cyber tip..."
+                  placeholder="Enter your tip or report details..."
                 />
               </div>
 
@@ -212,7 +212,7 @@ const Contact = () => {
                   className="w-full bg-mrd-crimson hover:bg-mrd-brightRed border border-mrd-brightRed/30 text-white font-mono uppercase tracking-widest text-[10px] font-bold py-3.5 px-6 rounded transition-colors flex items-center justify-center space-x-2 shadow-crimson-glow hover:shadow-crimson-glow-strong"
                 >
                   <AlertTriangle className="w-3.5 h-3.5 animate-pulse" />
-                  <span>{loadingTip ? 'ENCRYPTING BROADCAST...' : '[DISPATCH_TIP]'}</span>
+                  <span>{loadingTip ? 'SUBMITTING CONFIDENTIAL TIP...' : '[SUBMIT_CONFIDENTIAL_TIP]'}</span>
                 </button>
               </div>
             </form>
