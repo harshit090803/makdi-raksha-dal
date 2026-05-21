@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, ChevronRight, FileText, Users, Eye, Target } from 'lucide-react';
 
 const Home = () => {
-  const [membersCount, setMembersCount] = useState(124532);
+  const [membersCount, setMembersCount] = useState(0);
   const [activeSloganIndex, setActiveSloganIndex] = useState(0);
   const [isManifestoOpen, setIsManifestoOpen] = useState(false);
 
@@ -140,7 +140,7 @@ const Home = () => {
               <span>VERIFIED SOLUTIONS</span>
             </div>
             <p className="text-2xl font-extrabold text-white tracking-wide">
-              1,489
+              0
             </p>
           </div>
         </motion.div>
