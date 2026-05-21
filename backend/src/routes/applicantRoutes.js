@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { submitApplicant, getApplicants, updateStatus, exportCSV } = require('../controllers/applicantController');
+const { submitApplicant, getApplicants, getApprovedCount, updateStatus, exportCSV } = require('../controllers/applicantController');
 const { authMiddleware, adminMiddleware } = require('../middleware/authMiddleware');
 
 // @route   POST api/applicants
 // @desc    Submit application to join movement (Public)
 router.post('/', submitApplicant);
+
+// @route   GET api/applicants/count
+// @desc    Get count of approved members (Public)
+router.get('/count', getApprovedCount);
 
 // @route   GET api/applicants
 // @desc    Get all applicants list (Admin Only)

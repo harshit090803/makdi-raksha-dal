@@ -13,7 +13,7 @@ let mockApplicants = [
     skills: ['Cyber Surveillance', 'Network Threat Analysis', 'Fact Verification'],
     whyJoin: 'I want to help build a factual cyber narrative. Misinformation is harming national interest. MRD has the right roadmap.',
     anonymousMode: false,
-    status: 'Pending',
+    status: 'Approved',
     createdAt: new Date('2026-05-18T10:30:00Z')
   },
   {
@@ -52,7 +52,7 @@ let mockApplicants = [
     skills: ['Public Relations', 'Strategic Communication', 'Youth Leadership'],
     whyJoin: 'Traditional political models are broken. The youth needs smart, cyber-driven, disciplined activism.',
     anonymousMode: false,
-    status: 'Pending',
+    status: 'Approved',
     createdAt: new Date('2026-05-19T16:20:00Z')
   },
   {
@@ -83,7 +83,7 @@ let mockApplicants = [
   }
 ];
 
-// Submit Applicant Onboarding Form
+// Submit Applicant Onboarding Form (Auto-approved)
 const submitApplicant = async (req, res) => {
   try {
     const { name, username, email, state, occupation, skills, whyJoin, anonymousMode } = req.body;
@@ -110,7 +110,7 @@ const submitApplicant = async (req, res) => {
       skills: processedSkills,
       whyJoin,
       anonymousMode: !!anonymousMode,
-      status: 'Pending',
+      status: 'Approved',
       createdAt: new Date()
     };
 
@@ -120,7 +120,7 @@ const submitApplicant = async (req, res) => {
       const createdMock = { _id: mockId, ...newApplicantData };
       mockApplicants.unshift(createdMock);
       return res.status(201).json({
-        message: 'Onboarding completed. Your application is inside the MRD Cyber Core Queue.',
+        message: 'Onboarding completed. Your profile has been registered in the active cohort.',
         applicant: createdMock
       });
     }
@@ -130,13 +130,13 @@ const submitApplicant = async (req, res) => {
     await newApplicant.save();
 
     res.status(201).json({
-      message: 'Onboarding completed. Your application is inside the MRD Cyber Core Queue.',
+      message: 'Onboarding completed. Your profile has been registered in the active cohort.',
       applicant: newApplicant
     });
 
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Applicant onboarding critical transmission error.' });
+    res.status(500).json({ error: 'Failed to complete registration onboarding.' });
   }
 };
 
@@ -273,4 +273,19 @@ const exportCSV = async (req, res) => {
   }
 };
 
-module.exports = { submitApplicant, getApplicants, updateStatus, exportCSV, mockApplicants };
+// Retrieve Approved Cohort Members Count (Public)
+const getApprovedCount = async (req, res) => {
+  try {
+    if (getDbMode()) {
+      const count = mockApplicants.filter(a => a.status === 'Approved').length;
+      return res.json({ count });
+    }
+    const count = await Applicant.countDocuments({ status: 'Approved' });
+    res.json({ count });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to retrieve cohort count.' });
+  }
+};
+
+module.exports = { submitApplicant, getApplicants, getApprovedCount, updateStatus, exportCSV, mockApplicants };

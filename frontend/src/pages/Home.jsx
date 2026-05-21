@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, ChevronRight, FileText, Users, Eye, Target } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Home = () => {
+  const { API_URL } = useAuth();
   const [membersCount, setMembersCount] = useState(0);
   const [activeSloganIndex, setActiveSloganIndex] = useState(0);
   const [isManifestoOpen, setIsManifestoOpen] = useState(false);
@@ -15,6 +17,22 @@ const Home = () => {
     "Criticism Easy Hai. Roadmap Kahan Hai?",
     "Strong Nation. Strong Narrative."
   ];
+
+  // Fetch actual cohort count from backend on load
+  useEffect(() => {
+    const fetchCohortCount = async () => {
+      try {
+        const res = await fetch(`${API_URL}/applicants/count`);
+        if (res.ok) {
+          const data = await res.json();
+          setMembersCount(data.count || 0);
+        }
+      } catch (err) {
+        console.error('Failed to fetch live cohort count:', err);
+      }
+    };
+    fetchCohortCount();
+  }, [API_URL]);
 
   // Increment members count occasionally to simulate dynamic registrations
   useEffect(() => {
