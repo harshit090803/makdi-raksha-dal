@@ -160,7 +160,7 @@ const Home = () => {
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="bg-[#0c0303] border border-mrd-red/30 rounded max-w-2xl w-full p-6 sm:p-8 shadow-crimson-glow-strong text-left relative overflow-hidden"
+              className="bg-[#0c0303] border border-mrd-red/30 rounded max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-crimson-glow-strong text-left relative"
             >
               {/* Decorative subtle grid */}
               <div className="absolute inset-0 cyber-grid-bg opacity-10 pointer-events-none" />

@@ -3,17 +3,27 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { getDbMode } = require('../config/db');
 
-// Mock User Store
-const mockUsers = [
-  {
-    _id: 'mock_admin_1',
-    email: 'admin@mrd.in',
-    // Hashed value of 'MRDCommandCenter2026'
-    passwordHash: '$2a$10$dbf9d9ZIAdOD9zlYFLj/GuEQGY5poSl1VmiHeWlQgZUVoMkte7Hwq', 
-    role: 'admin',
-    createdAt: new Date('2026-01-01')
+// Dynamic Mock User Store
+const getMockUsers = () => {
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@mrd.in';
+  const adminPassword = process.env.ADMIN_PASSWORD || 'MRDCommandCenter2026';
+  
+  // Hashed value of password
+  let passwordHash = '$2a$10$dbf9d9ZIAdOD9zlYFLj/GuEQGY5poSl1VmiHeWlQgZUVoMkte7Hwq'; // Default hash
+  if (process.env.ADMIN_PASSWORD && process.env.ADMIN_PASSWORD !== 'MRDCommandCenter2026') {
+    passwordHash = bcrypt.hashSync(adminPassword.trim(), 10);
   }
-];
+  
+  return [
+    {
+      _id: 'mock_admin_1',
+      email: adminEmail.toLowerCase().trim(),
+      passwordHash,
+      role: 'admin',
+      createdAt: new Date('2026-01-01')
+    }
+  ];
+};
 
 const login = async (req, res) => {
   try {
@@ -27,7 +37,8 @@ const login = async (req, res) => {
 
     if (getDbMode()) {
       // Mock db check
-      const user = mockUsers.find(u => u.email === email.toLowerCase().trim());
+      const usersList = getMockUsers();
+      const user = usersList.find(u => u.email === email.toLowerCase().trim());
       if (!user) {
         return res.status(400).json({ error: 'Invalid command credentials.' });
       }
@@ -70,7 +81,8 @@ const login = async (req, res) => {
 const getMe = async (req, res) => {
   try {
     if (getDbMode()) {
-      const user = mockUsers.find(u => u._id === req.user.id);
+      const usersList = getMockUsers();
+      const user = usersList.find(u => u._id === req.user.id);
       if (!user) return res.status(404).json({ error: 'Session profile not found.' });
       return res.json({ id: user._id, email: user.email, role: user.role });
     }
@@ -84,4 +96,4 @@ const getMe = async (req, res) => {
   }
 };
 
-module.exports = { login, getMe, mockUsers };
+module.exports = { login, getMe, getMockUsers };

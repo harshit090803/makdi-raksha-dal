@@ -340,7 +340,7 @@ const Join = () => {
               </div>
 
               {/* Submit button */}
-              <div className="pt-4 flex justify-between items-center">
+              <div className="pt-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                 <span className={`text-[9px] font-mono flex items-center ${anonymousMode ? 'text-emerald-600' : 'text-gray-500'}`}>
                   <ShieldAlert className="w-3.5 h-3.5 mr-1" />
                   {anonymousMode ? 'ENCRYPTED PORT EXP-7' : 'Standard clearance checked.'}
@@ -349,7 +349,7 @@ const Join = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className={`px-8 py-3.5 rounded font-mono text-xs font-bold uppercase tracking-widest border transition-all ${anonymousMode ? 'bg-emerald-950/20 hover:bg-emerald-400 hover:text-black border-emerald-500 text-emerald-400' : 'bg-mrd-crimson hover:bg-mrd-brightRed text-white border-mrd-brightRed/30 shadow-crimson-glow hover:shadow-crimson-glow-strong'}`}
+                  className={`w-full sm:w-auto px-8 py-3.5 rounded font-mono text-xs font-bold uppercase tracking-widest border transition-all ${anonymousMode ? 'bg-emerald-950/20 hover:bg-emerald-400 hover:text-black border-emerald-500 text-emerald-400' : 'bg-mrd-crimson hover:bg-mrd-brightRed text-white border-mrd-brightRed/30 shadow-crimson-glow hover:shadow-crimson-glow-strong'}`}
                 >
                   {loading ? 'TRANSMITTING...' : anonymousMode ? '[EXECUTE_BROADCAST]' : 'Request Node Access'}
                 </button>

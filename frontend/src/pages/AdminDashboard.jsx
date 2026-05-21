@@ -174,7 +174,7 @@ const AdminDashboard = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-mrd-black border border-mrd-red/20 focus:border-mrd-crimson focus:outline-none rounded pl-10 pr-3 py-2 text-xs text-white"
-                  placeholder="admin@mrd.in"
+                  placeholder="intrusion-officer@mrd.in"
                 />
               </div>
             </div>
@@ -204,13 +204,7 @@ const AdminDashboard = () => {
             </div>
           </form>
 
-          {/* Seed accounts reminders for testers */}
-          <div className="mt-8 border-t border-mrd-red/10 pt-4 text-center">
-            <span className="text-[8px] text-gray-600 block uppercase mb-1">LOCAL DEVELOPMENT MOCK SECURITY PROFILE</span>
-            <span className="text-[9px] text-gray-500 block uppercase font-sans">
-              admin@mrd.in / MRDCommandCenter2026
-            </span>
-          </div>
+          {/* Secure authorization requirements apply */}
         </motion.div>
       </div>
     );
@@ -237,7 +231,7 @@ const AdminDashboard = () => {
                 <span>MRD Cyber Command Console</span>
                 <span className="ml-3 text-[9px] bg-mrd-crimson/20 border border-mrd-crimson/30 px-2 py-0.5 rounded text-mrd-crimson uppercase animate-pulse">LEVEL 1 Clearance</span>
               </h2>
-              <p className="text-[10px] text-gray-500 uppercase mt-1">OPERATIONAL PROFILE HASH: admin@mrd.in</p>
+              <p className="text-[10px] text-gray-500 uppercase mt-1">OPERATIONAL PROFILE HASH: {user?.email}</p>
             </div>
           </div>
 
@@ -410,10 +404,10 @@ const AdminDashboard = () => {
                     )}
 
                     {/* Clearance Actions buttons */}
-                    <div className="flex justify-between items-center border-t border-mrd-red/5 pt-4 text-[9px]">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center border-t border-mrd-red/5 pt-4 text-[9px] gap-3 sm:gap-0">
                       <span className="text-gray-500">CREATED: {new Date(app.createdAt).toLocaleString()}</span>
                       
-                      <div className="flex space-x-3">
+                      <div className="flex flex-wrap gap-2">
                         {app.status !== 'Approved' && (
                           <button
                             onClick={() => handleUpdateStatus(app._id, 'Approved')}
